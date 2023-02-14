@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GameScreen()
+                    ScreenSetup()
                 }
             }
         }
@@ -55,7 +56,7 @@ fun NavigationHost(navController: NavHostController){
         }
 
         composable(NavRoutes.New.route){
-            NewGameScreen()
+            NewGameScreen(navController)
         }
 
         composable(NavRoutes.Game.route){

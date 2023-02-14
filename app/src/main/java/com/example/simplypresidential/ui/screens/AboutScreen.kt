@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 
 @Composable
-fun NewGameScreen(navController: NavController){
+fun About(navController: NavController){
     // All widgets will sit under the modifier screen
 
     Column(

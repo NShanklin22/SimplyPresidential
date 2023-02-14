@@ -9,7 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,8 +57,7 @@ fun GameStatus(
 }
 
 @Composable
-fun PresidentDisplay(
-){
+fun PresidentDisplay(){
     Text(
         text = "1st President of the United States",
         fontWeight = FontWeight.Bold,
@@ -91,18 +90,23 @@ fun UserInput(){
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ){
+
+            var firstName by remember { mutableStateOf("") }
+            var lastName by remember { mutableStateOf("") }
+
             OutlinedTextField(
                 modifier = Modifier
                     .padding(15.dp)
                     .width(150.dp),
-                value = "", onValueChange = {},
+                value = firstName, onValueChange = { textEntry -> firstName = textEntry},
                 placeholder = { Text(text = "First Name")}
             )
             OutlinedTextField(
                 modifier = Modifier
                     .padding(15.dp)
                     .width(150.dp),
-                value = "", onValueChange = {},
+                value = lastName,
+                onValueChange = {textEntry -> lastName = textEntry},
                 placeholder = { Text(text = "Last Name")}
             )
         }
@@ -111,11 +115,15 @@ fun UserInput(){
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ){
+
+            var startDate by remember { mutableStateOf("") }
+            var endDate by remember { mutableStateOf("") }
+
             OutlinedTextField(
                 modifier = Modifier
                     .padding(15.dp)
                     .width(150.dp),
-                value = "", onValueChange = {},
+                value = startDate, onValueChange = {textEntry -> startDate = textEntry},
                 placeholder = { Text(text = "Start Year")}
             )
             Text(text = "TO")
@@ -123,12 +131,15 @@ fun UserInput(){
                 modifier = Modifier
                     .padding(15.dp)
                     .width(150.dp),
-                value = "", onValueChange = {},
+                value = endDate,
+                onValueChange = {textEntry -> endDate = textEntry},
                 placeholder = { Text(text = "End Year")}
             )
         }
         Button(
-            modifier = Modifier.height(50.dp).width(250.dp),
+            modifier = Modifier
+                .height(50.dp)
+                .width(250.dp),
             onClick = {}
         ) {
             Text(text = "Submit")
