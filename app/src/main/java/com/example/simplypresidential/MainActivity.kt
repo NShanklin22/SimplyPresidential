@@ -6,15 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
-import com.example.simplypresidential.ui.screens.GameOverScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.simplypresidential.ui.navigation.NavRoutes
+import com.example.simplypresidential.ui.screens.AnimatedSplashScreen
 import com.example.simplypresidential.ui.screens.GameScreen
-import com.example.simplypresidential.ui.screens.GameStatus
 import com.example.simplypresidential.ui.screens.NewGameScreen
 import com.example.simplypresidential.ui.theme.SimplyPresidentialTheme
 
@@ -36,6 +36,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun ScreenSetup(){
+
+    val navController = rememberNavController()
+
+    NavigationHost(navController = navController)
+}
+
+@Composable
 fun NavigationHost(navController: NavHostController){
 
     NavHost(
@@ -43,21 +51,15 @@ fun NavigationHost(navController: NavHostController){
         startDestination = NavRoutes.Splash.route,
     ){
         composable(NavRoutes.Splash.route){
-            AnimatedSplashScreen(navController, viewModel)
+            AnimatedSplashScreen(navController)
         }
 
-        composable(NavRoutes.Overview.route){
-            OverviewScreen()
+        composable(NavRoutes.New.route){
+            NewGameScreen()
         }
 
-        composable(NavRoutes.Table.route){
-            TableScreen(allLogs,viewModel)
+        composable(NavRoutes.Game.route){
+            GameScreen()
         }
-
-        composable(NavRoutes.Graph.route){
-            GraphScreen()
-        }
-
-
     }
 }
