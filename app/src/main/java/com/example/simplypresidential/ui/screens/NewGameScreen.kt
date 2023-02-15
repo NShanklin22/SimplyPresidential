@@ -1,15 +1,14 @@
 package com.example.simplypresidential.ui.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -39,8 +38,8 @@ fun NewGameScreen(navController: NavController){
         ) {
             Button(
                 onClick = {
-                    navController.navigate("game"){
-                        popUpTo(navController.graph.findStartDestination().id){
+                    navController.navigate("game") {
+                        popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
                         launchSingleTop = true
@@ -49,7 +48,24 @@ fun NewGameScreen(navController: NavController){
                 }
             ) {
                 Text(
-                    text = "New Game")
+                    text = "New Game"
+                )
+            }
+
+            Button(
+                onClick = {
+                    navController.navigate("about") {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            ) {
+                Text(
+                    text = "About"
+                )
             }
         }
     }

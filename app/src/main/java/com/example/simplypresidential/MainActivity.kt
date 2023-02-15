@@ -8,12 +8,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.simplypresidential.ui.navigation.NavRoutes
+import com.example.simplypresidential.ui.screens.AboutScreen
 import com.example.simplypresidential.ui.screens.AnimatedSplashScreen
 import com.example.simplypresidential.ui.screens.GameScreen
 import com.example.simplypresidential.ui.screens.NewGameScreen
@@ -61,6 +61,10 @@ fun NavigationHost(navController: NavHostController){
 
         composable(NavRoutes.Game.route){
             GameScreen()
+        }
+
+        composable(NavRoutes.About.route){
+            AboutScreen(navController)
         }
     }
 }

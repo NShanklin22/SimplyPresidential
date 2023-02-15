@@ -2,7 +2,8 @@ package com.example.simplypresidential.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val AmericanBlue = Color(0xFF486E9E)
+val PatrioticRed = Color(0xFFD84B59)
+val FreedomWhite = Color(0xFFF6E8E0)
+val IncorrectRed = Color(0xFF00FF00)
+val CorrectGreen = Color(0xFFcc0000)
