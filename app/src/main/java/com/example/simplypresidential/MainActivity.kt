@@ -1,17 +1,26 @@
 package com.example.simplypresidential
 
+import android.app.Application
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.ui.navigation.NavRoutes
 import com.example.simplypresidential.ui.screens.AboutScreen
 import com.example.simplypresidential.ui.screens.AnimatedSplashScreen
@@ -29,23 +38,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ScreenSetup()
+                        val viewModel: PresidentViewModel = viewModel()
+                        ScreenSetup(viewModel)}
+                    }
                 }
             }
         }
-    }
-}
+
+
 
 @Composable
-fun ScreenSetup(){
+fun ScreenSetup(viewModel: PresidentViewModel){
 
     val navController = rememberNavController()
 
-    NavigationHost(navController = navController)
+    NavigationHost(navController = navController,viewModel)
 }
 
 @Composable
-fun NavigationHost(navController: NavHostController){
+fun NavigationHost(navController: NavHostController, viewModel: PresidentViewModel){
 
     NavHost(
         navController = navController,
@@ -56,11 +67,11 @@ fun NavigationHost(navController: NavHostController){
         }
 
         composable(NavRoutes.New.route){
-            NewGameScreen(navController)
+            NewGameScreen(navController, viewModel)
         }
 
         composable(NavRoutes.Game.route){
-            GameScreen()
+            GameScreen(viewModel)
         }
 
         composable(NavRoutes.About.route){

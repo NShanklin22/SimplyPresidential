@@ -44,7 +44,7 @@ fun AboutScreen(navController: NavController){
         )
         Text(
             modifier = Modifier.padding(20.dp),
-            text = "Developed by Royal Fruit Studios, ",
+            text = "Developed by Royal Fruit Studios, really just one man with a slick new desk and passion for trivia",
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             textAlign = TextAlign.Center
