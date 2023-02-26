@@ -1,5 +1,6 @@
 package com.example.simplypresidential.ui.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simplypresidential.R
 import com.example.simplypresidential.database.PresidentViewModel
+import com.example.simplypresidential.database.PresidentsList
 import com.example.simplypresidential.ui.theme.AmericanBlue
 
 
@@ -66,13 +68,13 @@ fun PresidentDisplay(
     viewModel: PresidentViewModel
 ){
     Text(
-        text = "1st President of the United States",
+        text = "${PresidentsList.elementAt(viewModel.CurrentPresident.value).positionString} President of the United States",
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
     )
     Image(
-        painter = painterResource(id = R.drawable.pres01),
-        contentDescription = "George Washington"
+        painter = painterResource(PresidentsList.elementAt(viewModel.CurrentPresident.value).image),
+        contentDescription = "president"
     )
 }
 
@@ -220,7 +222,7 @@ fun UserInput(
                 }
 
                 if(viewModel.checkStartDate(startDate)){
-                    startDateError = 22
+                    startDateError = 2
                 }else{
                     startDateError = 1
                     startDate = ""
@@ -234,11 +236,19 @@ fun UserInput(
                 }
 
                 if(firstNameError == 2 && lastNameError == 2 && startDateError == 2 && endDateError == 2){
+                    Log.d("Heck yeah","Heck yeah")
                     viewModel.isCorrect.value = true
                     viewModel.CurrentPresident.value += 1
+                    firstName = ""
+                    lastName = ""
+                    startDate = ""
+                    endDate = ""
+                    firstNameError = 0
+                    lastNameError = 0
+                    startDateError = 0
+                    endDateError = 0
                     Toast.makeText(context,"Fucking Hell Nate You did it", Toast.LENGTH_SHORT).show()
                 }
-
             }
         ) {
             Text(text = "Submit")
