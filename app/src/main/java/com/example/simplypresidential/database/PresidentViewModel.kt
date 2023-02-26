@@ -1,17 +1,13 @@
 package com.example.simplypresidential.database
 
-import android.app.Application
-import android.util.Log
-import androidx.compose.runtime.remember
-import androidx.lifecycle.ViewModel
-import java.time.LocalDate
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import java.time.format.DateTimeFormatter
+import androidx.lifecycle.ViewModel
 
 class PresidentViewModel() : ViewModel() {
 
     val CurrentPresident = mutableStateOf(0)
+
+    val livesLeft = mutableStateOf(3)
 
     val isCorrect = mutableStateOf(false)
 

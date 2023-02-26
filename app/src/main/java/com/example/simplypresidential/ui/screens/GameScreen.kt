@@ -24,10 +24,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.simplypresidential.R
 import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.database.PresidentsList
-import com.example.simplypresidential.ui.theme.AmericanBlue
 
 
 @Composable
@@ -55,11 +53,14 @@ fun GameStatus(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
 
-
     ) {
-        Text(text = "1 of 50")
+        Text(text = "${viewModel.CurrentPresident.value+1} of 45")
 
-        Text(text = "Heart 3")
+        Row(){
+            for(i in 1..viewModel.livesLeft.value){
+                Text(text = "Heart $i")
+            }
+        }
     }
 }
 
@@ -248,6 +249,8 @@ fun UserInput(
                     startDateError = 0
                     endDateError = 0
                     Toast.makeText(context,"Fucking Hell Nate You did it", Toast.LENGTH_SHORT).show()
+                }else{
+                    viewModel.livesLeft.value -= 1
                 }
             }
         ) {
