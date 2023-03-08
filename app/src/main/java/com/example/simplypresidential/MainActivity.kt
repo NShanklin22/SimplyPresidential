@@ -3,6 +3,7 @@ package com.example.simplypresidential
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -12,6 +13,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -22,18 +24,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.ui.navigation.NavRoutes
-import com.example.simplypresidential.ui.screens.AboutScreen
-import com.example.simplypresidential.ui.screens.AnimatedSplashScreen
-import com.example.simplypresidential.ui.screens.GameScreen
-import com.example.simplypresidential.ui.screens.NewGameScreen
+import com.example.simplypresidential.ui.screens.*
 import com.example.simplypresidential.ui.theme.SimplyPresidentialTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             SimplyPresidentialTheme {
                 // A surface container using the 'background' color from the theme
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -44,8 +45,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-
 
 @Composable
 fun ScreenSetup(viewModel: PresidentViewModel){
@@ -71,11 +70,20 @@ fun NavigationHost(navController: NavHostController, viewModel: PresidentViewMod
         }
 
         composable(NavRoutes.Game.route){
-            GameScreen(viewModel)
+            GameScreen(viewModel,navController)
         }
 
         composable(NavRoutes.About.route){
             AboutScreen(navController)
+        }
+
+        composable(NavRoutes.GameOver.route){
+            GameOverScreen(navController,viewModel
+            )
+        }
+
+        composable(NavRoutes.Victory.route){
+            VictoryScreen(navController, viewModel)
         }
     }
 }

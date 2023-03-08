@@ -1,5 +1,8 @@
 package com.example.simplypresidential.ui.screens
 
+import android.util.Config.DEBUG
+import android.util.Log
+import android.util.Log.DEBUG
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.example.simplypresidential.BuildConfig.DEBUG
 import com.example.simplypresidential.database.PresidentData
 import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.database.PresidentsList
@@ -25,12 +29,14 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
+import kotlin.math.absoluteValue
 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun NewGameScreen(navController: NavController, viewModel:PresidentViewModel){
     // All widgets will sit under the modifier screen
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -45,7 +51,9 @@ fun NewGameScreen(navController: NavController, viewModel:PresidentViewModel){
             textAlign = TextAlign.Center
         )
 
-        Box(modifier = Modifier.fillMaxWidth().height(300.dp) ){
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp) ){
             PresidentialSlider()
         }
 
@@ -59,6 +67,10 @@ fun NewGameScreen(navController: NavController, viewModel:PresidentViewModel){
             Button(
                 modifier = Modifier.width(150.dp),
                 onClick = {
+
+                    viewModel.livesLeft.value = 3
+                    viewModel.CurrentPresident.value = 0
+
                     navController.navigate("game") {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
@@ -80,8 +92,6 @@ fun NewGameScreen(navController: NavController, viewModel:PresidentViewModel){
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
                 }
             ) {
@@ -97,15 +107,16 @@ fun NewGameScreen(navController: NavController, viewModel:PresidentViewModel){
 @Composable
 fun PresidentialSlider(){
 
-    val pagerState = rememberPagerState(initialPage = 1)
+    val pagerState = rememberPagerState(initialPage = 0)
 
     LaunchedEffect(Unit) {
         while(true) {
             yield()
             delay(2000)
-            tween<Float>(600)
+            tween<Float>(100)
+            Log.i("Current Page", "${pagerState.currentPage}")
             pagerState.animateScrollToPage(
-                page = (Math.random()*2).toInt() //(pagerState.currentPage + 1) % (pagerState.pageCount)
+                page = if(pagerState.currentPage < 44){ pagerState.currentPage + 1 }else{0}
             )
         }
     }
@@ -129,7 +140,5 @@ fun PresidentImage(pager:PresidentData){
 
     ) {
         Image(painter = painterResource(id = pager.image), contentDescription = pager.FirstName)
-
-        Text(pager.FirstName)
     }
 }

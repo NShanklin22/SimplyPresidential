@@ -2,8 +2,10 @@ package com.example.simplypresidential.ui.screens
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -24,12 +26,37 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.example.simplypresidential.R
 import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.database.PresidentsList
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun GameScreen(viewModel: PresidentViewModel){
+fun GameScreen(viewModel: PresidentViewModel, navController: NavController){
+
+    LaunchedEffect(viewModel.livesLeft.value == 0) {
+        if(viewModel.livesLeft.value == 0) {
+            navController.navigate("GameOver") {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+
+            }
+        }
+    }
+
+    LaunchedEffect(viewModel.livesLeft.value > 0 && viewModel.CurrentPresident.value > 45) {
+        if(viewModel.livesLeft.value > 0 && viewModel.CurrentPresident.value > 45) {
+            navController.navigate("victory") {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+            }
+        }
+    }
 
     // All widgets will sit under the modifier screen
     Column(
@@ -42,6 +69,8 @@ fun GameScreen(viewModel: PresidentViewModel){
         PresidentDisplay(viewModel)
 
         UserInput(viewModel)
+
+        AdvertView()
     }
 }
 
@@ -54,11 +83,17 @@ fun GameStatus(
         horizontalArrangement = Arrangement.SpaceBetween,
 
     ) {
-        Text(text = "${viewModel.CurrentPresident.value+1} of 45")
+        Text(
+            text = "${viewModel.CurrentPresident.value+1} of 45",
+            Modifier.padding(horizontal = 5.dp)
+        )
 
         Row(){
             for(i in 1..viewModel.livesLeft.value){
-                Text(text = "Heart $i")
+                Image(
+                    painter = painterResource(R.drawable.heart),
+                    contentDescription = "heart"
+                )
             }
         }
     }
@@ -79,16 +114,35 @@ fun PresidentDisplay(
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun UserInput(
     viewModel: PresidentViewModel
 ){
+
+    // Display if the user submits a correct answer
+    if (viewModel.isCorrect.value == 2){
+        RightAnswerDialog(
+            viewModel = viewModel,
+            onConfirm = {},
+            onDismiss = {}
+        )
+    }
+
+    // Display if the user submits an incorrect answer
+    if (viewModel.isCorrect.value == 1){
+        WrongAnswerDialog(
+            viewModel = viewModel,
+            onConfirm = {},
+            onDismiss = {}
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.SpaceEvenly
     ){
 
         val context = LocalContext.current
@@ -122,12 +176,12 @@ fun UserInput(
                 modifier = Modifier
                     .padding(5.dp)
                     .width(150.dp),
-                value = firstName, onValueChange = { textEntry -> firstName = textEntry},
+                value = firstName, onValueChange = {
+                        textEntry -> firstName = textEntry
+                       },
                 placeholder = { Text(text = "First Name")},
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = if(firstNameError == 1){Color.Red}else if(firstNameError == 0){Color.Gray}else{Color.Green} ,
-//                    textColor = Color.Black,
-//                    focusedLabelColor = Color.Red
                 ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
@@ -147,8 +201,6 @@ fun UserInput(
                 placeholder = { Text(text = "Last Name")},
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = if(lastNameError == 1){Color.Red}else if(lastNameError == 0){Color.Gray}else{Color.Green} ,
-//                    textColor = Color.Black,
-//                    focusedLabelColor = Color.Red
                 ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
@@ -173,8 +225,6 @@ fun UserInput(
                 placeholder = { Text(text = "Start Year")},
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = if(startDateError == 1){Color.Red}else if(startDateError == 0){Color.Gray}else{Color.Green},
-//                    textColor = Color.Black,
-//                    focusedLabelColor = Color.Red
                 ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done,keyboardType = KeyboardType.Number),
                 keyboardActions = KeyboardActions(
@@ -238,8 +288,7 @@ fun UserInput(
 
                 if(firstNameError == 2 && lastNameError == 2 && startDateError == 2 && endDateError == 2){
                     Log.d("Heck yeah","Heck yeah")
-                    viewModel.isCorrect.value = true
-                    viewModel.CurrentPresident.value += 1
+                    viewModel.isCorrect.value = 2
                     firstName = ""
                     lastName = ""
                     startDate = ""
@@ -248,13 +297,13 @@ fun UserInput(
                     lastNameError = 0
                     startDateError = 0
                     endDateError = 0
-                    Toast.makeText(context,"Fucking Hell Nate You did it", Toast.LENGTH_SHORT).show()
                 }else{
-                    viewModel.livesLeft.value -= 1
+                    viewModel.isCorrect.value = 1
                 }
             }
         ) {
             Text(text = "Submit")
         }
+        AdvertView()
     }
 }

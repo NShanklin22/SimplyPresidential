@@ -2,16 +2,25 @@ package com.example.simplypresidential.ui.screens
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.simplypresidential.R
+import com.example.simplypresidential.database.PresidentsList
 import com.example.simplypresidential.ui.navigation.NavRoutes
+import com.example.simplypresidential.ui.theme.AmericanBlue
+import com.example.simplypresidential.ui.theme.FreedomWhite
 import kotlinx.coroutines.delay
 
 // The splash screen will open when the app is first launches
@@ -38,9 +47,13 @@ fun Splash(alpha: Float){
     Modifier
         .fillMaxSize()
         .alpha(alpha)
-        .background(Color.Black),
+        .background(FreedomWhite),
         contentAlignment = Alignment.Center
 
     ){
+        Image(
+            painter = painterResource(R.drawable.app_icon),
+            contentDescription = "president"
+        )
     }
 }

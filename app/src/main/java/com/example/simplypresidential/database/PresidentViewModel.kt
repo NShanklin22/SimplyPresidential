@@ -9,7 +9,8 @@ class PresidentViewModel() : ViewModel() {
 
     val livesLeft = mutableStateOf(3)
 
-    val isCorrect = mutableStateOf(false)
+    // Using into to store 3 states, 0 = null, 1 = Incorrect, 2 = Correct
+    val isCorrect = mutableStateOf(0)
 
     fun checkFirstName(firstName:String): Boolean {
         if(firstName == PresidentsList.elementAt(CurrentPresident.value).FirstName){
