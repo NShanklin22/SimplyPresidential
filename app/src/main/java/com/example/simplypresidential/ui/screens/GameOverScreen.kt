@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.database.PresidentsList
-import com.example.simplypresidential.ui.theme.IncorrectRed
+import com.example.simplypresidential.ui.theme.IncorrectRedPrimary
 
 
 @Composable
@@ -36,13 +36,13 @@ fun GameOverScreen(navController: NavController, viewModel: PresidentViewModel){
             Text(
                 text = "GAME OVER",
                 fontSize = 30.sp,
-                color = IncorrectRed
+                color = IncorrectRedPrimary
             )
             Text(
                 text = "You made it to the ${PresidentsList.elementAt(viewModel.CurrentPresident.value).positionString} president!",
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center,
-                color = IncorrectRed
+                color = IncorrectRedPrimary
             )
 //            Text(
 //                text = "Your record is the 33rd president",
@@ -53,7 +53,7 @@ fun GameOverScreen(navController: NavController, viewModel: PresidentViewModel){
             Text(
                 text = "Try Again!",
                 fontSize = 30.sp,
-                color = IncorrectRed
+                color = IncorrectRedPrimary
             )
             Button(onClick = {
                 viewModel.livesLeft.value = 3

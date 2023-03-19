@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.simplypresidential.database.PresidentViewModel
 import com.example.simplypresidential.database.PresidentsList
-import com.example.simplypresidential.ui.theme.IncorrectRed
+import com.example.simplypresidential.ui.theme.IncorrectRedPrimary
 
 @Composable
 fun WrongAnswerDialog(
@@ -53,7 +53,7 @@ fun WrongAnswerDialog(
                 Text(
                     text = "INCORRECT",
                     fontSize = 30.sp,
-                    color = IncorrectRed
+                    color = IncorrectRedPrimary
                 )
                 Text(
                     text = "$firstName $lastName was the $positionString president of the United States and served from $startDate to $endDate",

@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.simplypresidential.database.PresidentViewModel
-import com.example.simplypresidential.ui.theme.CorrectGreen
-import com.example.simplypresidential.ui.theme.IncorrectRed
+import com.example.simplypresidential.ui.theme.CorrectGreenPrimary
+import com.example.simplypresidential.ui.theme.IncorrectRedPrimary
 
 @Composable
 fun RightAnswerDialog(
@@ -41,7 +41,7 @@ fun RightAnswerDialog(
                 Text(
                     text = "CORRECT",
                     fontSize = 30.sp,
-                    color = CorrectGreen
+                    color = CorrectGreenPrimary
                 )
                 // On button press increment the current president unless we are on the last president
                 Button(onClick = {

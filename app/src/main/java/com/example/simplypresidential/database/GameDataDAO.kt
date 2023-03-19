@@ -3,6 +3,7 @@ package com.example.simplypresidential.database
 import androidx.room.*
 import com.example.simplypresidential.ui.navigation.NavRoutes
 
+@Dao
 interface GameDataDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
